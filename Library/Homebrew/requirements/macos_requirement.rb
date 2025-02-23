@@ -36,7 +36,7 @@ class MacOSRequirement < Requirement
 
       # Array of versions: remove the bad ones and try again.
       if tags.first.respond_to?(:reject)
-        tags = [tags.first.reject { |s| s == e.version }, tags[1..]]
+        tags = [tags.first.reject { |s| s == e.version }, tags.drop(1)]
         retry
       end
 

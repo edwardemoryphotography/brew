@@ -61,7 +61,7 @@ module RuboCop
 
               if reason_string.start_with?("it ")
                 problem "Do not start the reason with `it`" do |corrector|
-                  corrector.replace(T.must(@offensive_node).source_range, "\"#{reason_string[3..]}\"")
+                  corrector.replace(T.must(@offensive_node).source_range, "\"#{reason_string.slice(3..)}\"")
                 end
               end
 

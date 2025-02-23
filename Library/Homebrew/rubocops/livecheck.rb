@@ -136,7 +136,7 @@ module RuboCop
 
           offending_node(livecheck_regex_node)
           problem "The `regex` call should always use parentheses." do |corrector|
-            pattern = livecheck_regex_node.source.split[1..].join
+            pattern = livecheck_regex_node.source.split.drop(1).join
             corrector.replace(livecheck_regex_node.source_range, "regex(#{pattern})")
           end
         end

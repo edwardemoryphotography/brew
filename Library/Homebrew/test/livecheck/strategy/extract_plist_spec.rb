@@ -79,7 +79,7 @@ RSpec.describe Homebrew::Livecheck::Strategy::ExtractPlist do
           match = items["first"].version.match(regex)
           next if match.blank?
 
-          match[1..].compact.join(",")
+          match.to_a.drop(1).compact.join(",")
         end,
       ).to eq(["1.2.3,45"])
 
@@ -90,7 +90,7 @@ RSpec.describe Homebrew::Livecheck::Strategy::ExtractPlist do
             match = item.version.match(regex)
             next if match.blank?
 
-            match[1..].compact.join(",")
+            match.to_a.drop(1).compact.join(",")
           end
         end,
       ).to eq(multipart_versions)

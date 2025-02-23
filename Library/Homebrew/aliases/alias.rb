@@ -18,7 +18,7 @@ module Homebrew
         @symlink = T.let(nil, T.nilable(Pathname))
 
         @command = if command&.start_with?("!", "%")
-          command[1..]
+          command.slice(1..)
         elsif command
           "brew #{command}"
         end

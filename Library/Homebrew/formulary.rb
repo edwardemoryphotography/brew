@@ -472,7 +472,7 @@ module Formulary
   end
 
   def self.convert_to_string_or_symbol(string)
-    return string[1..].to_sym if string.start_with?(":")
+    return string.slice(1..).to_sym if string.start_with?(":")
 
     string
   end

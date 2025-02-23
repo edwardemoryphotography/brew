@@ -934,7 +934,7 @@ module RuboCop
             params = parameters(method)
             next unless node_equals?(params[0], "make")
 
-            params[1..].each do |arg|
+            params.drop(1).each do |arg|
               next unless regex_match_group(arg, /^(checks?|tests?)$/)
 
               offending_node(method)

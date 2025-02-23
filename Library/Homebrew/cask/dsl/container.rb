@@ -20,7 +20,7 @@ module Cask
       end
 
       def pairs
-        instance_variables.to_h { |ivar| [ivar[1..].to_sym, instance_variable_get(ivar)] }.compact
+        instance_variables.to_h { |ivar| [ivar.slice(1..).to_sym, instance_variable_get(ivar)] }.compact
       end
 
       def to_yaml
