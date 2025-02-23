@@ -10,6 +10,8 @@ module Homebrew
       # This strategy is not applied automatically and it's necessary to use
       # `strategy :electron_builder` in a `livecheck` block to apply it.
       class ElectronBuilder
+        extend Strategic
+
         NICE_NAME = "electron-builder"
 
         # A priority of zero causes livecheck to skip the strategy. We do this
@@ -22,8 +24,7 @@ module Homebrew
         # Whether the strategy can be applied to the provided URL.
         #
         # @param url [String] the URL to match against
-        # @return [Boolean]
-        sig { params(url: String).returns(T::Boolean) }
+        sig { override.params(url: String).returns(T::Boolean) }
         def self.match?(url)
           URL_MATCH_REGEX.match?(url)
         end
@@ -34,9 +35,8 @@ module Homebrew
         # @param regex [Regexp, nil] a regex used for matching versions
         # @param provided_content [String, nil] content to use in place of
         #   fetching via `Strategy#page_content`
-        # @return [Hash]
         sig {
-          params(
+          override(allow_incompatible: true).params(
             url:              String,
             regex:            T.nilable(Regexp),
             provided_content: T.nilable(String),

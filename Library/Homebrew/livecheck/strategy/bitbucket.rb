@@ -28,6 +28,8 @@ module Homebrew
       #
       # @api public
       class Bitbucket
+        extend Strategic
+
         # The `Regexp` used to determine if the strategy applies to the URL.
         URL_MATCH_REGEX = %r{
           ^https?://bitbucket\.org
@@ -41,8 +43,7 @@ module Homebrew
         # Whether the strategy can be applied to the provided URL.
         #
         # @param url [String] the URL to match against
-        # @return [Boolean]
-        sig { params(url: String).returns(T::Boolean) }
+        sig { override.params(url: String).returns(T::Boolean) }
         def self.match?(url)
           URL_MATCH_REGEX.match?(url)
         end
@@ -53,7 +54,6 @@ module Homebrew
         # `livecheck` block.
         #
         # @param url [String] the URL used to generate values
-        # @return [Hash]
         sig { params(url: String).returns(T::Hash[Symbol, T.untyped]) }
         def self.generate_input_values(url)
           values = {}
@@ -93,9 +93,8 @@ module Homebrew
         #
         # @param url [String] the URL of the content to check
         # @param regex [Regexp] a regex used for matching versions in content
-        # @return [Hash]
         sig {
-          params(
+          override.params(
             url:    String,
             regex:  T.nilable(Regexp),
             unused: T.untyped,

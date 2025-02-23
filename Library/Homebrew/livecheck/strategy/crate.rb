@@ -17,6 +17,8 @@ module Homebrew
       #
       # @api public
       class Crate
+        extend Strategic
+
         # The default regex used to identify versions when a regex isn't
         # provided.
         DEFAULT_REGEX = /^v?(\d+(?:\.\d+)+)$/i
@@ -45,8 +47,7 @@ module Homebrew
         # Whether the strategy can be applied to the provided URL.
         #
         # @param url [String] the URL to match against
-        # @return [Boolean]
-        sig { params(url: String).returns(T::Boolean) }
+        sig { override.params(url: String).returns(T::Boolean) }
         def self.match?(url)
           URL_MATCH_REGEX.match?(url)
         end
@@ -55,7 +56,6 @@ module Homebrew
         # various input values used by the strategy to check for new versions.
         #
         # @param url [String] the URL used to generate values
-        # @return [Hash]
         sig { params(url: String).returns(T::Hash[Symbol, T.untyped]) }
         def self.generate_input_values(url)
           values = {}
@@ -67,16 +67,15 @@ module Homebrew
         end
 
         # Generates a URL and checks the content at the URL for new versions
-        # using {Json#versions_from_content}.
+        # using {Json.versions_from_content}.
         #
         # @param url [String] the URL of the content to check
         # @param regex [Regexp, nil] a regex for matching versions in content
         # @param provided_content [String, nil] content to check instead of
         #   fetching
         # @param homebrew_curl [Boolean] whether to use brewed curl with the URL
-        # @return [Hash]
         sig {
-          params(
+          override.params(
             url:              String,
             regex:            T.nilable(Regexp),
             provided_content: T.nilable(String),
