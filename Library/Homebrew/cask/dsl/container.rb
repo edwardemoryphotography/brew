@@ -20,7 +20,10 @@ module Cask
       end
 
       def pairs
-        instance_variables.to_h { |ivar| [ivar.slice(1..).to_sym, instance_variable_get(ivar)] }.compact
+        # `drop` is not a method on `Symbol`
+        # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+        instance_variables.to_h { |ivar| [ivar[1..].to_sym, instance_variable_get(ivar)] }.compact
+        # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
       end
 
       def to_yaml

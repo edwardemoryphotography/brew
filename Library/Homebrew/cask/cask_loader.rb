@@ -330,7 +330,10 @@ module Cask
         cask_options[:tap] = Tap.fetch(json_cask[:tap]) if json_cask[:tap].to_s.include?("/")
 
         user_agent = json_cask.dig(:url_specs, :user_agent)
-        json_cask[:url_specs][:user_agent] = user_agent.slice(1..).to_sym if user_agent && user_agent[0] == ":"
+        # `drop` is not defined on `String`
+        # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+        json_cask[:url_specs][:user_agent] = user_agent[1..].to_sym if user_agent && user_agent[0] == ":"
+        # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
         if (using = json_cask.dig(:url_specs, :using))
           json_cask[:url_specs][:using] = using.to_sym
         end

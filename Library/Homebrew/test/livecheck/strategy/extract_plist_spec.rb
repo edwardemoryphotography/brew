@@ -79,7 +79,10 @@ RSpec.describe Homebrew::Livecheck::Strategy::ExtractPlist do
           match = items["first"].version.match(regex)
           next if match.blank?
 
-          match.to_a.drop(1).compact.join(",")
+          # `drop` is not defined on `MatchData`
+          # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+          match[1..].compact.join(",")
+          # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
         end,
       ).to eq(["1.2.3,45"])
 
@@ -90,7 +93,10 @@ RSpec.describe Homebrew::Livecheck::Strategy::ExtractPlist do
             match = item.version.match(regex)
             next if match.blank?
 
-            match.to_a.drop(1).compact.join(",")
+            # `drop` is not defined on `MatchData`
+            # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+            match[1..].compact.join(",")
+            # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
           end
         end,
       ).to eq(multipart_versions)

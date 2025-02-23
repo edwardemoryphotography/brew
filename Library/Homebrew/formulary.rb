@@ -472,7 +472,10 @@ module Formulary
   end
 
   def self.convert_to_string_or_symbol(string)
-    return string.slice(1..).to_sym if string.start_with?(":")
+    # `drop` is not defined on `String`
+    # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+    return string[1..].to_sym if string.start_with?(":")
+    # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
 
     string
   end

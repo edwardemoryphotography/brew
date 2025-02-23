@@ -18,7 +18,10 @@ module Homebrew
         @symlink = T.let(nil, T.nilable(Pathname))
 
         @command = if command&.start_with?("!", "%")
-          command.slice(1..)
+          # `drop` is not defined on `String`
+          # rubocop:disable Performance/ArraySemiInfiniteRangeSlice
+          command[1..]
+          # rubocop:enable Performance/ArraySemiInfiniteRangeSlice
         elsif command
           "brew #{command}"
         end
