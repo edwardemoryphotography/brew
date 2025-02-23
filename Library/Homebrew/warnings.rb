@@ -13,8 +13,8 @@ module Warnings
     ],
   }.freeze, T::Hash[Symbol, T::Array[Regexp]])
 
-  sig { params(warnings: T.any(Symbol, Regexp), _block: T.nilable(T.proc.void)).void }
-  def self.ignore(*warnings, &_block)
+  sig { params(warnings: T.any(Symbol, Regexp), block: T.nilable(T.proc.void)).void }
+  def self.ignore(*warnings, &block)
     warnings.map! do |warning|
       next warning if !warning.is_a?(Symbol) || !COMMON_WARNINGS.key?(warning)
 
@@ -24,7 +24,7 @@ module Warnings
     warnings.flatten.each do |warning|
       Warning.ignore warning
     end
-    return unless block_given?
+    return unless block
 
     yield
     Warning.clear
