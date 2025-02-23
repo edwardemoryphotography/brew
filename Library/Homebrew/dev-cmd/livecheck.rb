@@ -102,7 +102,7 @@ module Homebrew
 
             autobump_lists[tap] ||= begin
               autobump_path = tap.path/".github/autobump.txt"
-              autobump_path.exist? ? autobump_path.readlines.map(&:strip) : []
+              autobump_path.exist? ? autobump_path.each_line.map(&:strip) : []
             end
 
             name = formula_or_cask.respond_to?(:token) ? formula_or_cask.token : formula_or_cask.name

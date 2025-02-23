@@ -53,7 +53,7 @@ module OS
         paths = Set.new
         directory = conf_file.realpath.dirname
 
-        conf_file.readlines.each do |line|
+        conf_file.each_line do |line|
           # Remove comments and leading/trailing whitespace
           line.strip!
           line.sub!(/\s*#.*$/, "")
